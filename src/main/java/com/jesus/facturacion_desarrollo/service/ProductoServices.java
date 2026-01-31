@@ -1,8 +1,14 @@
 package com.jesus.facturacion_desarrollo.service;
 
+import com.jesus.facturacion_desarrollo.dto.ProductoDTO;
+import com.jesus.facturacion_desarrollo.model.Producto;
 import com.jesus.facturacion_desarrollo.repository.ProductoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoServices {
@@ -13,4 +19,46 @@ public class ProductoServices {
         this.productoRepository = productoRepository;
         this.modelMapper = modelMapper;
     }
+
+    public ProductoDTO save(ProductoDTO productoDTO) {
+        Producto producto = modelMapper.map(productoDTO, Producto.class);
+    return  modelMapper.map(productoRepository.save(producto), ProductoDTO.class);
+    }
+
+    public List<ProductoDTO> findAll() {
+        return productoRepository.findAll().stream().map(
+                producto -> {
+                    return  modelMapper.map(producto, ProductoDTO.class);
+                }
+        ).collect(Collectors.toList());
+
+    }
+
+    public Optional<ProductoDTO> findById(Integer id) {
+        return  productoRepository.findById(id).map(
+                producto -> {
+                    return  modelMapper.map(producto, ProductoDTO.class);
+                }
+        );
+    }
+
+    public boolean deleteById(Integer id) {
+        return productoRepository.findById(id).map(
+                producto ->  {
+                    productoRepository.deleteById(id);
+                    return  true;
+                }
+
+        ).orElse(false);
+    }
+
+    public Optional<ProductoDTO> update(ProductoDTO productoDTO) {
+        Producto producto = modelMapper.map(productoDTO, Producto.class);
+        return  productoRepository.findById(producto.getId()).map(
+                productoDB ->{
+                    return  modelMapper.map(productoRepository.save(productoDB), ProductoDTO.class);
+                }
+        );
+    }
+
 }
