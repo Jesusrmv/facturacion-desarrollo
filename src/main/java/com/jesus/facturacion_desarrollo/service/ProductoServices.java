@@ -53,12 +53,18 @@ public class ProductoServices {
     }
 
     public Optional<ProductoDTO> update(ProductoDTO productoDTO) {
-        Producto producto = modelMapper.map(productoDTO, Producto.class);
-        return  productoRepository.findById(producto.getId()).map(
-                productoDB ->{
-                    return  modelMapper.map(productoRepository.save(productoDB), ProductoDTO.class);
-                }
-        );
+        return productoRepository.findById(productoDTO.getId())
+                .map(productoDB -> {
+                    // Copia los datos nuevos del DTO a la entidad existente
+                    modelMapper.map(productoDTO, productoDB);
+
+                    // Guarda (JPA hace UPDATE porque ya existe el ID)
+                    Producto actualizado = productoRepository.save(productoDB);
+
+                    // Devuelve el DTO actualizado
+                    return modelMapper.map(actualizado, ProductoDTO.class);
+                });
     }
+
 
 }

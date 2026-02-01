@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "productos")
@@ -22,8 +23,9 @@ public class Producto {
     private String detalle;
     private BigDecimal precio;
 
+    @Column(updatable = false)
     @CreationTimestamp // cuando se crea el registro llena ese campo
-    private LocalDate fechaCreado;
+    private LocalDateTime fechaCreado;
     @UpdateTimestamp // cuando se actualize se llena el campo
-    private LocalDate fechaActualizado;
+    private LocalDateTime fechaActualizado;
 }
