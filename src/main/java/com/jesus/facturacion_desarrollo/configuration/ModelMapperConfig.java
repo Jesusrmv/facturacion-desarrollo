@@ -1,4 +1,4 @@
-package configuration;
+package com.jesus.facturacion_desarrollo.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
