@@ -1,18 +1,20 @@
 package com.jesus.facturacion_desarrollo.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
-
+@Getter
+@Setter
 public class ResponseFacturaDTO {
 
     private Integer id;
-    private Integer numeroFactura;
+    private String numeroFactura;
     private Integer subTotal;
     private BigDecimal total;
-    private LocalDate fechaCreado;
-    private Set<ResponseDetalleFacturaDTO> detallesFactura;
+    private LocalDate fechaCreacion;
+    private Set<ResponseDetalleFacturaDTO> detalleFactura;
 }
 
